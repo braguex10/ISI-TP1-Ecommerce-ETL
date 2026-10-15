@@ -1,1 +1,46 @@
-
+[
+  {
+    "id_transacao": "TXN-2026-001",
+    "data_venda": "2026-10-01 10:15:30",
+    "cliente": {
+      "nome": "João Silva",
+      "email": "joao.silva@email.com",
+      "contribuinte": "PT234567890",
+      "telefone": "+351 912 345 678"
+    },
+    "linha_venda": [
+      { "sku": "SKU-1001", "quantidade": 2, "preco_aplicado": 79.90 },
+      { "sku": "SKU-1006", "quantidade": 1, "preco_aplicado": 19.99 }
+    ],
+    "metodo_pagamento": "MBWAY"
+  },
+  {
+    "id_transacao": "TXN-2026-002",
+    "data_venda": "2026-10-01 11:42:00",
+    "cliente": {
+      "nome": "Maria Santos",
+      "email": "maria_santos_email_invalido",
+      "contribuinte": "210987654",
+      "telefone": "961234567"
+    },
+    "linha_venda": [
+      { "sku": "SKU-1002", "quantidade": 1, "preco_aplicado": 49.99 },
+      { "sku": "SKU-1005", "quantidade": 1, "preco_aplicado": 59.90 }
+    ],
+    "metodo_pagamento": "VISA"
+  },
+  {
+    "id_transacao": "TXN-2026-003",
+    "data_venda": "2026-10-02 09:05:12",
+    "cliente": {
+      "nome": "Carlos Oliveira",
+      "email": "carlos.oliveira@empresa.pt",
+      "contribuinte": "PT509876543",
+      "telefone": "+351 933 888 777"
+    },
+    "linha_venda": [
+      { "sku": "SKU-1004", "quantidade": 2, "preco_aplicado": 189.50 }
+    ],
+    "metodo_pagamento": "MULTIBANCO"
+  }
+]

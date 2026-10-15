@@ -1,1 +1,9 @@
-
+SKU;Nome_Produto;Categoria;Preco_Unitario;Stock_Atual;Armazem_ID;Data_Ultima_Entrada
+SKU-1001;Teclado Mecanico RGB;Perifericos;79.90;15;ARM-NORTH;2026-09-01
+SKU-1002;Rato Sem Fios Pro;Perifericos;49.99;8;ARM-NORTH;2026-09-05
+SKU-1003;Monitor 27 IPS 144Hz;Monitroes;249.00;;ARM-SOUTH;2026-08-20
+SKU-1004;Cadeira Gaming Ergonomica;Mobiliario;189.50;3;ARM-SOUTH;2026-09-10
+SKU-1005;Headset 7.1 Surround;Perifericos;59.90;0;ARM-NORTH;2026-08-15
+SKU-1006;Tapete Mousepad XL;Acessorios;19.99;50;ARM-NORTH;2026-09-12
+SKU-1007;Webcam 4K UltraHD;Perifericos;119.00;12;ARM-SOUTH;2026-09-02
+SKU-1008;Suporte Monitor Duplo;Acessorios;39.90;2;ARM-SOUTH;2026-08-28

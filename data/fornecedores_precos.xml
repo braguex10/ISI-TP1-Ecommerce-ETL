@@ -1,1 +1,17 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<fornecedores>
+    <fornecedor id="FORN-01" nome="TechSupplier Lda">
+        <produtos>
+            <produto sku="SKU-1001" preco_custo="52.00" tempo_entrega_dias="3"/>
+            <produto sku="SKU-1002" preco_custo="31.50" tempo_entrega_dias="2"/>
+            <produto sku="SKU-1005" preco_custo="38.00" tempo_entrega_dias="5"/>
+        </produtos>
+    </fornecedor>
+    <fornecedor id="FORN-02" nome="Global Office Dist">
+        <produtos>
+            <produto sku="SKU-1003" preco_custo="165.00" tempo_entrega_dias="7"/>
+            <produto sku="SKU-1004" preco_custo="120.00" tempo_entrega_dias="4"/>
+            <produto sku="SKU-1008" preco_custo="22.00" tempo_entrega_dias="3"/>
+        </produtos>
+    </fornecedor>
+</fornecedores>

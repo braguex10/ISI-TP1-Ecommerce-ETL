@@ -1,0 +1,4 @@
+"id_transacao";"data_venda";"metodo_pagamento";"sku";"quantidade";"preco_aplicado";"Nome_Produto";"Categoria";"Armazem_ID";"fornecedor_nome";"preco_custo";"tempo_entrega_dias";"email_valido";"data_cambio";"taxa_usd";"taxa_gbp";"total_linha";"custo_total";"margem";"total_linha_usd";"total_linha_gbp"
+"TXN-2026-002";"2026-10-01 11:42:00";"VISA";"SKU-1002";1;49.99;"Rato Sem Fios Pro";"Perifericos";"ARM-NORTH";"TechSupplier Lda";31.5;2;0;"2026-10-16";1.1253;0.84385;49.99;31.5;18.490000000000002;56.253747;42.1840615
+"TXN-2026-002";"2026-10-01 11:42:00";"VISA";"SKU-1005";1;59.9;"Headset 7.1 Surround";"Perifericos";"ARM-NORTH";"TechSupplier Lda";38;5;0;"2026-10-16";1.1253;0.84385;59.9;38;21.9;67.40547;50.546614999999996
+"TXN-2026-001";"2026-10-01 10:15:30";"MBWAY";"SKU-1006";1;19.99;"Tapete Mousepad XL";"Acessorios";"ARM-NORTH";;;;1;"2026-10-16";1.1253;0.84385;19.99;;;22.494746999999997;16.8685615

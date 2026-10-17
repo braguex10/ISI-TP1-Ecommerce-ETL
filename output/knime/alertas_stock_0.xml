@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <item>
+        <SKU>SKU-1003</SKU>
+        <Nome_Produto>Monitor 27 IPS 144Hz</Nome_Produto>
+        <Categoria>Monitores</Categoria>
+        <Preco_Unitario>249</Preco_Unitario>
+        <Stock_Atual>0</Stock_Atual>
+        <Armazem_ID>ARM-SOUTH</Armazem_ID>
+        <Data_Ultima_Entrada>2026-08-20</Data_Ultima_Entrada>
+        <estado_stock>RUTURA</estado_stock>
+    </item>
+    <item>
+        <SKU>SKU-1004</SKU>
+        <Nome_Produto>Cadeira Gaming Ergonomica</Nome_Produto>
+        <Categoria>Mobiliario</Categoria>
+        <Preco_Unitario>189.5</Preco_Unitario>
+        <Stock_Atual>3</Stock_Atual>
+        <Armazem_ID>ARM-SOUTH</Armazem_ID>
+        <Data_Ultima_Entrada>2026-09-10</Data_Ultima_Entrada>
+        <estado_stock>CRITICO</estado_stock>
+    </item>
+    <item>
+        <SKU>SKU-1005</SKU>
+        <Nome_Produto>Headset 7.1 Surround</Nome_Produto>
+        <Categoria>Perifericos</Categoria>
+        <Preco_Unitario>59.9</Preco_Unitario>
+        <Stock_Atual>0</Stock_Atual>
+        <Armazem_ID>ARM-NORTH</Armazem_ID>
+        <Data_Ultima_Entrada>2026-08-15</Data_Ultima_Entrada>
+        <estado_stock>RUTURA</estado_stock>
+    </item>
+    <item>
+        <SKU>SKU-1008</SKU>
+        <Nome_Produto>Suporte Monitor Duplo</Nome_Produto>
+        <Categoria>Acessorios</Categoria>
+        <Preco_Unitario>39.9</Preco_Unitario>
+        <Stock_Atual>2</Stock_Atual>
+        <Armazem_ID>ARM-SOUTH</Armazem_ID>
+        <Data_Ultima_Entrada>2026-08-28</Data_Ultima_Entrada>
+        <estado_stock>CRITICO</estado_stock>
+    </item>
+</root>

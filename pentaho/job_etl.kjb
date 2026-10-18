@@ -411,7 +411,7 @@
       <use_auth>Y</use_auth>
       <use_secure_auth>Y</use_secure_auth>
       <auth_user>goncalovbbraga@gmail.com</auth_user>
-      <auth_password>Encrypted 2cff7c6bc01ce8482b801b964dd80add3</auth_password>
+      <auth_password>Encrypted </auth_password>
       <only_comment>N</only_comment>
       <use_HTML>N</use_HTML>
       <use_Priority>N</use_Priority>
@@ -453,10 +453,10 @@
       <include_files>N</include_files>
       <zip_files>N</zip_files>
       <zip_name/>
-      <use_auth>Y</use_auth>
+      <use_auth>N</use_auth>
       <use_secure_auth>N</use_secure_auth>
-      <auth_user>goncalovbbraga@gmail.com</auth_user>
-      <auth_password>Encrypted 2cff7c6bc01ce8482b801b964dd80add3</auth_password>
+      <auth_user/>
+      <auth_password>Encrypted </auth_password>
       <only_comment>N</only_comment>
       <use_HTML>N</use_HTML>
       <use_Priority>N</use_Priority>

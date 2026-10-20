@@ -65,5 +65,5 @@ As duas plataformas produzem os mesmos resultados:
 **Ficheiros gerados:** `fact_vendas.json` (vendas válidas anonimizadas), `vendas_rejeitadas.csv`, `resumo_categoria.csv`, `alertas_stock.xml`, `log_execucao.csv` e a base de dados SQLite (`ecommerce_pentaho.db` / `ecommerce_knime.db`).
 
 ## Documentação e vídeo
-* 📄 **Relatório:** [`docs/`](docs)
-* 🎥 **Vídeo de demonstração:** *(a adicionar)*
+*  **Relatório:** [`docs/`](docs)
+*  **Vídeo de demonstração:** *(a adicionar)*

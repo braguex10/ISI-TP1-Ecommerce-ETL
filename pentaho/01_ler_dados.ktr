@@ -462,6 +462,10 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
+        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
         <attribute>-1</attribute>
       </attribute>
@@ -725,6 +729,765 @@
     </hop>
   </order>
   <step>
+    <name>Adicionar Indicativo</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>telefone_norm</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>^(\d{9})$</replace_string>
+        <replace_by_string>+351$1</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1280</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Alerta Stock Baixo</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Anonimizar Dados</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>nif</in_stream_name>
+        <out_stream_name>nif_anon</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>^(\d{3})\d{5}(\d)$</replace_string>
+        <replace_by_string>$1*****$2</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>telefone_norm</in_stream_name>
+        <out_stream_name>telefone_anon</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>^(\+351\d{3})\d{3}(\d{3})$</replace_string>
+        <replace_by_string>$1***$2</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>email</in_stream_name>
+        <out_stream_name>email_anon</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>^(.).*(@.*)$</replace_string>
+        <replace_by_string>$1***$2</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>688</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>BD dim_produto</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>SQLite_Ecommerce</connection>
+    <schema/>
+    <table>dim_produto</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>BD fact_vendas</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>SQLite_Ecommerce</connection>
+    <schema/>
+    <table>fact_vendas</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>id_transacao</column_name>
+        <stream_name>id_transacao</stream_name>
+      </field>
+      <field>
+        <column_name>data_venda</column_name>
+        <stream_name>data_venda</stream_name>
+      </field>
+      <field>
+        <column_name>metodo_pagamento</column_name>
+        <stream_name>metodo_pagamento</stream_name>
+      </field>
+      <field>
+        <column_name>nif_anon</column_name>
+        <stream_name>nif_anon</stream_name>
+      </field>
+      <field>
+        <column_name>telefone_anon</column_name>
+        <stream_name>telefone_anon</stream_name>
+      </field>
+      <field>
+        <column_name>email_anon</column_name>
+        <stream_name>email_anon</stream_name>
+      </field>
+      <field>
+        <column_name>sku</column_name>
+        <stream_name>sku</stream_name>
+      </field>
+      <field>
+        <column_name>Nome_Produto</column_name>
+        <stream_name>Nome_Produto</stream_name>
+      </field>
+      <field>
+        <column_name>Categoria</column_name>
+        <stream_name>Categoria</stream_name>
+      </field>
+      <field>
+        <column_name>quantidade</column_name>
+        <stream_name>quantidade</stream_name>
+      </field>
+      <field>
+        <column_name>preco_aplicado</column_name>
+        <stream_name>preco_aplicado</stream_name>
+      </field>
+      <field>
+        <column_name>preco_custo</column_name>
+        <stream_name>preco_custo</stream_name>
+      </field>
+      <field>
+        <column_name>tempo_entrega_dias</column_name>
+        <stream_name>tempo_entrega_dias</stream_name>
+      </field>
+      <field>
+        <column_name>total_linha</column_name>
+        <stream_name>total_linha</stream_name>
+      </field>
+      <field>
+        <column_name>custo_total</column_name>
+        <stream_name>custo_total</stream_name>
+      </field>
+      <field>
+        <column_name>margem</column_name>
+        <stream_name>margem</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1264</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>BD resumo_categoria</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>SQLite_Ecommerce</connection>
+    <schema/>
+    <table>resumo_categoria</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1312</xloc>
+      <yloc>944</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>BD vendas_rejeitadas</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>SQLite_Ecommerce</connection>
+    <schema/>
+    <table>vendas_rejeitadas</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>id_transacao</column_name>
+        <stream_name>id_transacao</stream_name>
+      </field>
+      <field>
+        <column_name>data_venda</column_name>
+        <stream_name>data_venda</stream_name>
+      </field>
+      <field>
+        <column_name>metodo_pagamento</column_name>
+        <stream_name>metodo_pagamento</stream_name>
+      </field>
+      <field>
+        <column_name>sku</column_name>
+        <stream_name>sku</stream_name>
+      </field>
+      <field>
+        <column_name>Nome_Produto</column_name>
+        <stream_name>Nome_Produto</stream_name>
+      </field>
+      <field>
+        <column_name>Categoria</column_name>
+        <stream_name>Categoria</stream_name>
+      </field>
+      <field>
+        <column_name>quantidade</column_name>
+        <stream_name>quantidade</stream_name>
+      </field>
+      <field>
+        <column_name>preco_aplicado</column_name>
+        <stream_name>preco_aplicado</stream_name>
+      </field>
+      <field>
+        <column_name>email_valido</column_name>
+        <stream_name>email_valido</stream_name>
+      </field>
+      <field>
+        <column_name>preco_custo</column_name>
+        <stream_name>preco_custo</stream_name>
+      </field>
+      <field>
+        <column_name>tempo_entrega_dias</column_name>
+        <stream_name>tempo_entrega_dias</stream_name>
+      </field>
+      <field>
+        <column_name>total_linha</column_name>
+        <stream_name>total_linha</stream_name>
+      </field>
+      <field>
+        <column_name>custo_total</column_name>
+        <stream_name>custo_total</stream_name>
+      </field>
+      <field>
+        <column_name>margem</column_name>
+        <stream_name>margem</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>960</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calcular Totais e Margem</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>total_linha</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>preco_aplicado</field_a>
+      <field_b>quantidade</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>custo_total</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>preco_custo</field_a>
+      <field_b>quantidade</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>margem</field_name>
+      <calc_type>SUBTRACT</calc_type>
+      <field_a>total_linha</field_a>
+      <field_b>custo_total</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Chamar API Cambio</name>
+    <type>Rest</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <applicationType>TEXT PLAIN</applicationType>
+    <method>GET</method>
+    <url/>
+    <urlInField>Y</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField>url</urlField>
+    <bodyField/>
+    <httpLogin/>
+    <httpPassword>Encrypted </httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>N</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      </headers>
+    <parameters>
+      </parameters>
+    <matrixParameters>
+      </matrixParameters>
+    <result>
+      <name>resposta_api</name>
+      <code>status_api</code>
+      <response_time/>
+      <response_header/>
+    </result>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>576</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Contar Rejeitadas</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore/>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname/>
+    <give_back_row>Y</give_back_row>
+    <group>
+      </group>
+    <fields>
+      <field>
+        <aggregate>num_rejeitadas</aggregate>
+        <subject>id_transacao</subject>
+        <type>COUNT_ALL</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>1024</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Contar Validas</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore/>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname/>
+    <give_back_row>Y</give_back_row>
+    <group>
+      </group>
+    <fields>
+      <field>
+        <aggregate>num_validas</aggregate>
+        <subject>id_transacao</subject>
+        <type>COUNT_ALL</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>total_vendas</aggregate>
+        <subject>total_linha</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1040</xloc>
+      <yloc>976</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Converter Moeda</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>total_linha_usd</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>total_linha</field_a>
+      <field_b>taxa _usd</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>total_linha_gbp</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>total_linha</field_a>
+      <field_b>taxa_gbp</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>2</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>736</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Corrigir Categoria</name>
+    <type>ValueMapper</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <field_to_use>Categoria</field_to_use>
+    <target_field/>
+    <non_match_default/>
+    <fields>
+      <field>
+        <source_value>Monitroes</source_value>
+        <target_value>Monitores</target_value>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Data Execucao</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>data_execucao</name>
+        <type>system date (variable)</type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>1136</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Desdobrar Produtos Venda</name>
     <type>JsonInput</type>
     <description/>
@@ -816,8 +1579,48 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>320</yloc>
+      <xloc>512</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Estado do Stock</name>
+    <type>NumberRange</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <inputField>Stock_Atual</inputField>
+    <outputField>estado_stock</outputField>
+    <fallBackValue>OK</fallBackValue>
+    <rules>
+      <rule>
+        <lower_bound>0.0</lower_bound>
+        <upper_bound>1.0</upper_bound>
+        <value>RUTURA</value>
+      </rule>
+      <rule>
+        <lower_bound>1.0</lower_bound>
+        <upper_bound>5.0</upper_bound>
+        <value>CRITICO</value>
+      </rule>
+    </rules>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>768</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -922,14 +1725,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>592</yloc>
+      <xloc>1296</xloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>JSON input</name>
-    <type>JsonInput</type>
+    <name>Gravar Alertas XML</name>
+    <type>XMLOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -938,905 +1741,131 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <ignoreMissingPath>Y</ignoreMissingPath>
-    <defaultPathLeafToNull>Y</defaultPathLeafToNull>
-    <includeNulls>N</includeNulls>
-    <rownum_field/>
+    <encoding>UTF-8</encoding>
+    <name_space/>
+    <xml_main_element>alertas_stock</xml_main_element>
+    <xml_repeat_element>produto</xml_repeat_element>
     <file>
-      <name>${Internal.Entry.Current.Directory}/../data/vendas_online.json</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
+      <name>${Internal.Entry.Current.Directory}/../output/pentaho/alertas_stock</name>
+      <extention>xml</extention>
+      <servlet_output>N</servlet_output>
+      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <split>N</split>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <omit_null_values>N</omit_null_values>
+      <date_time_format/>
+      <add_to_result_filenames>N</add_to_result_filenames>
+      <zipped>N</zipped>
+      <splitevery>0</splitevery>
     </file>
     <fields>
       <field>
-        <name>contribuinte</name>
-        <path>$.[*].cliente.contribuinte</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>data_venda</name>
-        <path>$.[*].data_venda</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>email</name>
-        <path>$.[*].cliente.email</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>id_transacao</name>
-        <path>$.[*].id_transacao</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>nome</name>
-        <path>$.[*].cliente.nome</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>telefone</name>
-        <path>$.[*].cliente.telefone</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>linha_venda</name>
-        <path>$.[*].linha_venda</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>metodo_pagamento</name>
-        <path>$.[*].metodo_pagamento</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>N</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField/>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>400</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Ler Produtos e Stock</name>
-    <type>CsvInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <filename>${Internal.Entry.Current.Directory}/../data/produtos_stock.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>;</separator>
-    <enclosure>"</enclosure>
-    <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>N</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <format>mixed</format>
-    <encoding>UTF-8</encoding>
-    <fields>
-      <field>
+        <content_type>Element</content_type>
         <name>SKU</name>
+        <element/>
         <type>String</type>
         <format/>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
         <length>8</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Nome_Produto</name>
+        <element/>
         <type>String</type>
         <format/>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
         <length>25</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Categoria</name>
+        <element/>
         <type>String</type>
         <format/>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
         <length>11</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Preco_Unitario</name>
+        <element/>
         <type>BigNumber</type>
-        <format>#.###</format>
-        <currency>€</currency>
+        <format>0.00</format>
+        <currency/>
         <decimal>.</decimal>
-        <group>,</group>
+        <group/>
+        <nullif/>
         <length>15</length>
         <precision>0</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Stock_Atual</name>
+        <element/>
         <type>Integer</type>
-        <format>#</format>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
+        <format>0</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
         <precision>0</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Armazem_ID</name>
+        <element/>
         <type>String</type>
         <format/>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
         <length>9</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
       </field>
       <field>
+        <content_type>Element</content_type>
         <name>Data_Ultima_Entrada</name>
+        <element/>
         <type>Date</type>
         <format>yyyy-MM-dd</format>
-        <currency>€</currency>
-        <decimal>,</decimal>
-        <group>.</group>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
         <length>-1</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>96</xloc>
-      <yloc>464</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Remover linha_venda</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <select_unspecified>N</select_unspecified>
-      <remove>
-        <name>linha_venda</name>
-      </remove>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Validar Email</name>
-    <type>RegexEval</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <script>^[\w.+-]+@[\w-]+\.[\w.]+$</script>
-    <matcher>email</matcher>
-    <resultfieldname>email_valido</resultfieldname>
-    <usevar>N</usevar>
-    <allowcapturegroups>N</allowcapturegroups>
-    <replacefields>Y</replacefields>
-    <canoneq>N</canoneq>
-    <caseinsensitive>N</caseinsensitive>
-    <comment>N</comment>
-    <dotall>N</dotall>
-    <multiline>N</multiline>
-    <unicode>N</unicode>
-    <unix>N</unix>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>880</xloc>
-      <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Normalizar NIF e Telefone</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>contribuinte</in_stream_name>
-        <out_stream_name>nif</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>^PT</replace_string>
-        <replace_by_string/>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
       </field>
       <field>
-        <in_stream_name>telefone</in_stream_name>
-        <out_stream_name>telefone_norm</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>\s</replace_string>
-        <replace_by_string/>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>880</xloc>
-      <yloc>560</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Adicionar Indicativo</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>telefone_norm</in_stream_name>
-        <out_stream_name/>
-        <use_regex>yes</use_regex>
-        <replace_string>^(\d{9})$</replace_string>
-        <replace_by_string>+351$1</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>608</xloc>
-      <yloc>560</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup Produtos</name>
-    <type>StreamLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <from>Corrigir Categoria</from>
-    <input_sorted>N</input_sorted>
-    <preserve_memory>Y</preserve_memory>
-    <sorted_list>N</sorted_list>
-    <integer_pair>N</integer_pair>
-    <lookup>
-      <key>
-        <name>sku</name>
-        <field>SKU</field>
-      </key>
-      <value>
-        <name>Nome_Produto</name>
-        <rename>Nome_Produto</rename>
-        <default/>
+        <content_type>Element</content_type>
+        <name>estado_stock</name>
+        <element/>
         <type>String</type>
-      </value>
-      <value>
-        <name>Categoria</name>
-        <rename>Categoria</rename>
-        <default/>
-        <type>String</type>
-      </value>
-      <value>
-        <name>Stock_Atual</name>
-        <rename>Stock_Atual</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>480</xloc>
-      <yloc>560</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup Fornecedores</name>
-    <type>StreamLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <from>Get data from XML</from>
-    <input_sorted>N</input_sorted>
-    <preserve_memory>Y</preserve_memory>
-    <sorted_list>N</sorted_list>
-    <integer_pair>N</integer_pair>
-    <lookup>
-      <key>
-        <name>sku</name>
-        <field>sku</field>
-      </key>
-      <value>
-        <name>preco_custo</name>
-        <rename>preco_custo</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>tempo_entrega_dias</name>
-        <rename>tempo_entrega_dias</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>224</xloc>
-      <yloc>624</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Calcular Totais e Margem</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>total_linha</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>preco_aplicado</field_a>
-      <field_b>quantidade</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>2</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>custo_total</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>preco_custo</field_a>
-      <field_b>quantidade</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>2</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>margem</field_name>
-      <calc_type>SUBTRACT</calc_type>
-      <field_a>total_linha</field_a>
-      <field_b>custo_total</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>2</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>464</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Vendas Validas</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>784</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Vendas Rejeitadas</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>800</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Validar Email OK</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Validar Fornecedor</send_true_to>
-    <send_false_to>Vendas Rejeitadas</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>email_valido</leftvalue>
-        <function>=</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>Boolean</type>
-          <text>Y</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask/>
-        </value>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>528</xloc>
-      <yloc>800</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Validar Fornecedor</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Vendas Validas</send_true_to>
-    <send_false_to>Vendas Rejeitadas</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>preco_custo</leftvalue>
-        <function>IS NOT NULL</function>
-        <rightvalue/>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>640</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Anonimizar Dados</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>nif</in_stream_name>
-        <out_stream_name>nif_anon</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>^(\d{3})\d{5}(\d)$</replace_string>
-        <replace_by_string>$1*****$2</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>telefone_norm</in_stream_name>
-        <out_stream_name>telefone_anon</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>^(\+351\d{3})\d{3}(\d{3})$</replace_string>
-        <replace_by_string>$1***$2</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>email</in_stream_name>
-        <out_stream_name>email_anon</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>^(.).*(@.*)$</replace_string>
-        <replace_by_string>$1***$2</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>255</length>
+        <precision>-1</precision>
       </field>
     </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>976</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Stock Nulo para 0</name>
-    <type>IfNull</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <replaceAllByValue/>
-    <replaceAllMask/>
-    <selectFields>Y</selectFields>
-    <selectValuesType>N</selectValuesType>
-    <setEmptyStringAll>N</setEmptyStringAll>
-    <valuetypes>
-      </valuetypes>
-    <fields>
-      <field>
-        <name>Stock_Atual</name>
-        <value>0</value>
-        <mask/>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>224</xloc>
-      <yloc>512</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Corrigir Categoria</name>
-    <type>ValueMapper</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <field_to_use>Categoria</field_to_use>
-    <target_field/>
-    <non_match_default/>
-    <fields>
-      <field>
-        <source_value>Monitroes</source_value>
-        <target_value>Monitores</target_value>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>336</xloc>
-      <yloc>544</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Stock Baixo?</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Alerta Stock Baixo</send_true_to>
-    <send_false_to/>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>Stock_Atual</leftvalue>
-        <function>&lt;</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>Integer</type>
-          <text>5</text>
-          <length>-1</length>
-          <precision>0</precision>
-          <isnull>N</isnull>
-          <mask>####0;-####0</mask>
-        </value>
-      </condition>
-    </compare>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1847,13 +1876,13 @@
     </remotesteps>
     <GUI>
       <xloc>304</xloc>
-      <yloc>400</yloc>
+      <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Alerta Stock Baixo</name>
-    <type>Dummy</type>
+    <name>Gravar Log Execucao</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1862,352 +1891,84 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>144</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Resumo por Categoria</name>
-    <type>GroupBy</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <all_rows>N</all_rows>
-    <ignore_aggregate>N</ignore_aggregate>
-    <field_ignore/>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>grp</prefix>
-    <add_linenr>N</add_linenr>
-    <linenr_fieldname/>
-    <give_back_row>N</give_back_row>
-    <group>
-      <field>
-        <name>Categoria</name>
-      </field>
-    </group>
-    <fields>
-      <field>
-        <aggregate>total_unidades</aggregate>
-        <subject>quantidade</subject>
-        <type>SUM</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>total_vendas</aggregate>
-        <subject>total_linha</subject>
-        <type>SUM</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>margem_total</aggregate>
-        <subject>margem</subject>
-        <type>SUM</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>num_vendas</aggregate>
-        <subject>sku</subject>
-        <type>COUNT_ALL</type>
-        <valuefield/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1152</xloc>
-      <yloc>816</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Ordenar por Categoria</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>Categoria</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1136</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Preparar Saida Vendas</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_transacao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>data_venda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>metodo_pagamento</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nif_anon</name>
-        <rename/>
-      </field>
-      <field>
-        <name>telefone_anon</name>
-        <rename/>
-      </field>
-      <field>
-        <name>email_anon</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sku</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Nome_Produto</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Categoria</name>
-        <rename/>
-      </field>
-      <field>
-        <name>quantidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>preco_aplicado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>preco_custo</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tempo_entrega_dias</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha</name>
-        <rename/>
-      </field>
-      <field>
-        <name>custo_total</name>
-        <rename/>
-      </field>
-      <field>
-        <name>margem</name>
-        <rename/>
-      </field>
-      <field>
-        <name>data_cambio</name>
-        <rename/>
-      </field>
-      <field>
-        <name>taxa _usd</name>
-        <rename/>
-      </field>
-      <field>
-        <name>taxa_gbp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha_gbp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha_usd</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1072</xloc>
-      <yloc>592</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Gravar fact_vendas JSON</name>
-    <type>JsonOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <outputValue>outputValue</outputValue>
-    <jsonBloc>vendas</jsonBloc>
-    <nrRowsInBloc>0</nrRowsInBloc>
-    <operation_type>writetofile</operation_type>
-    <compatibility_mode>N</compatibility_mode>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
     <encoding>UTF-8</encoding>
-    <addtoresult>N</addtoresult>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>${Internal.Entry.Current.Directory}/../output/pentaho/fact_vendas</name>
-      <extention>json</extention>
-      <append>N</append>
+      <name>${Internal.Entry.Current.Directory}/../output/pentaho/log_execucao</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>Y</append>
       <split>N</split>
       <haspartno>N</haspartno>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <create_parent_folder>Y</create_parent_folder>
-      <DoNotOpenNewFileInit>N</DoNotOpenNewFileInit>
-      <servlet_output>N</servlet_output>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery/>
     </file>
     <fields>
       <field>
-        <name>id_transacao</name>
-        <element>id_transacao</element>
+        <name>num_validas</name>
+        <type>Integer</type>
+        <format>0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>10</length>
+        <precision>0</precision>
       </field>
       <field>
-        <name>data_venda</name>
-        <element>data_venda</element>
+        <name>total_vendas</name>
+        <type>Number</type>
+        <format>0.00</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
       </field>
       <field>
-        <name>metodo_pagamento</name>
-        <element>metodo_pagamento</element>
+        <name>num_rejeitadas</name>
+        <type>Integer</type>
+        <format>0</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>10</length>
+        <precision>0</precision>
       </field>
       <field>
-        <name>nif_anon</name>
-        <element>nif_anon</element>
-      </field>
-      <field>
-        <name>telefone_anon</name>
-        <element>telefone_anon</element>
-      </field>
-      <field>
-        <name>email_anon</name>
-        <element>email_anon</element>
-      </field>
-      <field>
-        <name>sku</name>
-        <element>sku</element>
-      </field>
-      <field>
-        <name>Nome_Produto</name>
-        <element>Nome_Produto</element>
-      </field>
-      <field>
-        <name>Categoria</name>
-        <element>Categoria</element>
-      </field>
-      <field>
-        <name>quantidade</name>
-        <element>quantidade</element>
-      </field>
-      <field>
-        <name>preco_aplicado</name>
-        <element>preco_aplicado</element>
-      </field>
-      <field>
-        <name>preco_custo</name>
-        <element>preco_custo</element>
-      </field>
-      <field>
-        <name>tempo_entrega_dias</name>
-        <element>tempo_entrega_dias</element>
-      </field>
-      <field>
-        <name>total_linha</name>
-        <element>total_linha</element>
-      </field>
-      <field>
-        <name>custo_total</name>
-        <element>custo_total</element>
-      </field>
-      <field>
-        <name>margem</name>
-        <element>margem</element>
-      </field>
-      <field>
-        <name>data_cambio</name>
-        <element>data_cambio</element>
-      </field>
-      <field>
-        <name>taxa _usd</name>
-        <element>taxa _usd</element>
-      </field>
-      <field>
-        <name>taxa_gbp</name>
-        <element>taxa_gbp</element>
-      </field>
-      <field>
-        <name>total_linha_gbp</name>
-        <element>total_linha_gbp</element>
-      </field>
-      <field>
-        <name>total_linha_usd</name>
-        <element>total_linha_usd</element>
+        <name>data_execucao</name>
+        <type>Date</type>
+        <format>yyyy-MM-dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
       </field>
     </fields>
     <attributes/>
@@ -2219,112 +1980,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1216</xloc>
-      <yloc>512</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Preparar Saida Rejeitadas</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_transacao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>data_venda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>metodo_pagamento</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sku</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Nome_Produto</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Categoria</name>
-        <rename/>
-      </field>
-      <field>
-        <name>quantidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>preco_aplicado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>email_valido</name>
-        <rename/>
-      </field>
-      <field>
-        <name>preco_custo</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tempo_entrega_dias</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha</name>
-        <rename/>
-      </field>
-      <field>
-        <name>custo_total</name>
-        <rename/>
-      </field>
-      <field>
-        <name>margem</name>
-        <rename/>
-      </field>
-      <field>
-        <name>data_cambio</name>
-        <rename/>
-      </field>
-      <field>
-        <name>taxa _usd</name>
-        <rename/>
-      </field>
-      <field>
-        <name>taxa_gbp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha_gbp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_linha_usd</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>864</xloc>
-      <yloc>880</yloc>
+      <xloc>1424</xloc>
+      <yloc>1104</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2579,7 +2236,7 @@
         <type>Number</type>
         <format>0.00</format>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
@@ -2591,7 +2248,7 @@
         <type>Number</type>
         <format>0.00</format>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
@@ -2731,48 +2388,8 @@
     </GUI>
   </step>
   <step>
-    <name>Estado do Stock</name>
-    <type>NumberRange</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <inputField>Stock_Atual</inputField>
-    <outputField>estado_stock</outputField>
-    <fallBackValue>OK</fallBackValue>
-    <rules>
-      <rule>
-        <lower_bound>0.0</lower_bound>
-        <upper_bound>1.0</upper_bound>
-        <value>RUTURA</value>
-      </rule>
-      <rule>
-        <lower_bound>1.0</lower_bound>
-        <upper_bound>5.0</upper_bound>
-        <value>CRITICO</value>
-      </rule>
-    </rules>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
-      <yloc>448</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Gravar Alertas XML</name>
-    <type>XMLOutput</type>
+    <name>Gravar fact_vendas JSON</name>
+    <type>JsonOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2781,237 +2398,109 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <outputValue>outputValue</outputValue>
+    <jsonBloc>vendas</jsonBloc>
+    <nrRowsInBloc>0</nrRowsInBloc>
+    <operation_type>writetofile</operation_type>
+    <compatibility_mode>N</compatibility_mode>
     <encoding>UTF-8</encoding>
-    <name_space/>
-    <xml_main_element>alertas_stock</xml_main_element>
-    <xml_repeat_element>produto</xml_repeat_element>
+    <addtoresult>N</addtoresult>
     <file>
-      <name>${Internal.Entry.Current.Directory}/../output/pentaho/alertas_stock</name>
-      <extention>xml</extention>
-      <servlet_output>N</servlet_output>
-      <do_not_open_newfile_init>N</do_not_open_newfile_init>
+      <name>${Internal.Entry.Current.Directory}/../output/pentaho/fact_vendas</name>
+      <extention>json</extention>
+      <append>N</append>
       <split>N</split>
+      <haspartno>N</haspartno>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <omit_null_values>N</omit_null_values>
-      <date_time_format/>
-      <add_to_result_filenames>N</add_to_result_filenames>
-      <zipped>N</zipped>
-      <splitevery>0</splitevery>
+      <create_parent_folder>Y</create_parent_folder>
+      <DoNotOpenNewFileInit>N</DoNotOpenNewFileInit>
+      <servlet_output>N</servlet_output>
     </file>
     <fields>
       <field>
-        <content_type>Element</content_type>
-        <name>SKU</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>8</length>
-        <precision>-1</precision>
+        <name>id_transacao</name>
+        <element>id_transacao</element>
       </field>
       <field>
-        <content_type>Element</content_type>
+        <name>data_venda</name>
+        <element>data_venda</element>
+      </field>
+      <field>
+        <name>metodo_pagamento</name>
+        <element>metodo_pagamento</element>
+      </field>
+      <field>
+        <name>nif_anon</name>
+        <element>nif_anon</element>
+      </field>
+      <field>
+        <name>telefone_anon</name>
+        <element>telefone_anon</element>
+      </field>
+      <field>
+        <name>email_anon</name>
+        <element>email_anon</element>
+      </field>
+      <field>
+        <name>sku</name>
+        <element>sku</element>
+      </field>
+      <field>
         <name>Nome_Produto</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>25</length>
-        <precision>-1</precision>
+        <element>Nome_Produto</element>
       </field>
       <field>
-        <content_type>Element</content_type>
         <name>Categoria</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>11</length>
-        <precision>-1</precision>
+        <element>Categoria</element>
       </field>
       <field>
-        <content_type>Element</content_type>
-        <name>Preco_Unitario</name>
-        <element/>
-        <type>BigNumber</type>
-        <format>0.00</format>
-        <currency/>
-        <decimal>.</decimal>
-        <group/>
-        <nullif/>
-        <length>15</length>
-        <precision>0</precision>
+        <name>quantidade</name>
+        <element>quantidade</element>
       </field>
       <field>
-        <content_type>Element</content_type>
-        <name>Stock_Atual</name>
-        <element/>
-        <type>Integer</type>
-        <format>0</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>0</precision>
+        <name>preco_aplicado</name>
+        <element>preco_aplicado</element>
       </field>
       <field>
-        <content_type>Element</content_type>
-        <name>Armazem_ID</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>9</length>
-        <precision>-1</precision>
+        <name>preco_custo</name>
+        <element>preco_custo</element>
       </field>
       <field>
-        <content_type>Element</content_type>
-        <name>Data_Ultima_Entrada</name>
-        <element/>
-        <type>Date</type>
-        <format>yyyy-MM-dd</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>tempo_entrega_dias</name>
+        <element>tempo_entrega_dias</element>
       </field>
       <field>
-        <content_type>Element</content_type>
-        <name>estado_stock</name>
-        <element/>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>255</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>32</xloc>
-      <yloc>384</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>BD fact_vendas</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>SQLite_Ecommerce</connection>
-    <schema/>
-    <table>fact_vendas</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>id_transacao</column_name>
-        <stream_name>id_transacao</stream_name>
+        <name>total_linha</name>
+        <element>total_linha</element>
       </field>
       <field>
-        <column_name>data_venda</column_name>
-        <stream_name>data_venda</stream_name>
+        <name>custo_total</name>
+        <element>custo_total</element>
       </field>
       <field>
-        <column_name>metodo_pagamento</column_name>
-        <stream_name>metodo_pagamento</stream_name>
+        <name>margem</name>
+        <element>margem</element>
       </field>
       <field>
-        <column_name>nif_anon</column_name>
-        <stream_name>nif_anon</stream_name>
+        <name>data_cambio</name>
+        <element>data_cambio</element>
       </field>
       <field>
-        <column_name>telefone_anon</column_name>
-        <stream_name>telefone_anon</stream_name>
+        <name>taxa _usd</name>
+        <element>taxa _usd</element>
       </field>
       <field>
-        <column_name>email_anon</column_name>
-        <stream_name>email_anon</stream_name>
+        <name>taxa_gbp</name>
+        <element>taxa_gbp</element>
       </field>
       <field>
-        <column_name>sku</column_name>
-        <stream_name>sku</stream_name>
+        <name>total_linha_gbp</name>
+        <element>total_linha_gbp</element>
       </field>
       <field>
-        <column_name>Nome_Produto</column_name>
-        <stream_name>Nome_Produto</stream_name>
-      </field>
-      <field>
-        <column_name>Categoria</column_name>
-        <stream_name>Categoria</stream_name>
-      </field>
-      <field>
-        <column_name>quantidade</column_name>
-        <stream_name>quantidade</stream_name>
-      </field>
-      <field>
-        <column_name>preco_aplicado</column_name>
-        <stream_name>preco_aplicado</stream_name>
-      </field>
-      <field>
-        <column_name>preco_custo</column_name>
-        <stream_name>preco_custo</stream_name>
-      </field>
-      <field>
-        <column_name>tempo_entrega_dias</column_name>
-        <stream_name>tempo_entrega_dias</stream_name>
-      </field>
-      <field>
-        <column_name>total_linha</column_name>
-        <stream_name>total_linha</stream_name>
-      </field>
-      <field>
-        <column_name>custo_total</column_name>
-        <stream_name>custo_total</stream_name>
-      </field>
-      <field>
-        <column_name>margem</column_name>
-        <stream_name>margem</stream_name>
+        <name>total_linha_usd</name>
+        <element>total_linha_usd</element>
       </field>
     </fields>
     <attributes/>
@@ -3024,13 +2513,13 @@
     </remotesteps>
     <GUI>
       <xloc>1264</xloc>
-      <yloc>640</yloc>
+      <yloc>496</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>BD vendas_rejeitadas</name>
-    <type>TableOutput</type>
+    <name>JSON input</name>
+    <type>JsonInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3039,81 +2528,143 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>SQLite_Ecommerce</connection>
-    <schema/>
-    <table>vendas_rejeitadas</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <readurl>N</readurl>
+    <removeSourceField>N</removeSourceField>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <ignoreMissingPath>Y</ignoreMissingPath>
+    <defaultPathLeafToNull>Y</defaultPathLeafToNull>
+    <includeNulls>N</includeNulls>
+    <rownum_field/>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/../data/vendas_online.json</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
     <fields>
       <field>
-        <column_name>id_transacao</column_name>
-        <stream_name>id_transacao</stream_name>
+        <name>contribuinte</name>
+        <path>$.[*].cliente.contribuinte</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>data_venda</column_name>
-        <stream_name>data_venda</stream_name>
+        <name>data_venda</name>
+        <path>$.[*].data_venda</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>metodo_pagamento</column_name>
-        <stream_name>metodo_pagamento</stream_name>
+        <name>email</name>
+        <path>$.[*].cliente.email</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>sku</column_name>
-        <stream_name>sku</stream_name>
+        <name>id_transacao</name>
+        <path>$.[*].id_transacao</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>Nome_Produto</column_name>
-        <stream_name>Nome_Produto</stream_name>
+        <name>nome</name>
+        <path>$.[*].cliente.nome</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>Categoria</column_name>
-        <stream_name>Categoria</stream_name>
+        <name>telefone</name>
+        <path>$.[*].cliente.telefone</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>quantidade</column_name>
-        <stream_name>quantidade</stream_name>
+        <name>linha_venda</name>
+        <path>$.[*].linha_venda</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <column_name>preco_aplicado</column_name>
-        <stream_name>preco_aplicado</stream_name>
-      </field>
-      <field>
-        <column_name>email_valido</column_name>
-        <stream_name>email_valido</stream_name>
-      </field>
-      <field>
-        <column_name>preco_custo</column_name>
-        <stream_name>preco_custo</stream_name>
-      </field>
-      <field>
-        <column_name>tempo_entrega_dias</column_name>
-        <stream_name>tempo_entrega_dias</stream_name>
-      </field>
-      <field>
-        <column_name>total_linha</column_name>
-        <stream_name>total_linha</stream_name>
-      </field>
-      <field>
-        <column_name>custo_total</column_name>
-        <stream_name>custo_total</stream_name>
-      </field>
-      <field>
-        <column_name>margem</column_name>
-        <stream_name>margem</stream_name>
+        <name>metodo_pagamento</name>
+        <path>$.[*].metodo_pagamento</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
     </fields>
+    <limit>0</limit>
+    <IsInFields>N</IsInFields>
+    <IsAFile>N</IsAFile>
+    <valueField/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3123,188 +2674,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>960</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>BD resumo_categoria</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>SQLite_Ecommerce</connection>
-    <schema/>
-    <table>resumo_categoria</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1312</xloc>
-      <yloc>944</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>BD dim_produto</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>SQLite_Ecommerce</connection>
-    <schema/>
-    <table>dim_produto</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>512</xloc>
-      <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Contar Validas</name>
-    <type>GroupBy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <all_rows>N</all_rows>
-    <ignore_aggregate>N</ignore_aggregate>
-    <field_ignore/>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>grp</prefix>
-    <add_linenr>N</add_linenr>
-    <linenr_fieldname/>
-    <give_back_row>Y</give_back_row>
-    <group>
-      </group>
-    <fields>
-      <field>
-        <aggregate>num_validas</aggregate>
-        <subject>id_transacao</subject>
-        <type>COUNT_ALL</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>total_vendas</aggregate>
-        <subject>total_linha</subject>
-        <type>SUM</type>
-        <valuefield/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1040</xloc>
-      <yloc>976</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Contar Rejeitadas</name>
-    <type>GroupBy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <all_rows>N</all_rows>
-    <ignore_aggregate>N</ignore_aggregate>
-    <field_ignore/>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>grp</prefix>
-    <add_linenr>N</add_linenr>
-    <linenr_fieldname/>
-    <give_back_row>Y</give_back_row>
-    <group>
-      </group>
-    <fields>
-      <field>
-        <aggregate>num_rejeitadas</aggregate>
-        <subject>id_transacao</subject>
-        <type>COUNT_ALL</type>
-        <valuefield/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>864</xloc>
-      <yloc>1024</yloc>
+      <xloc>272</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3346,8 +2717,8 @@
     </GUI>
   </step>
   <step>
-    <name>Data Execucao</name>
-    <type>SystemInfo</type>
+    <name>Juntar Taxas Cambio</name>
+    <type>JoinRows</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3356,12 +2727,18 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <fields>
-      <field>
-        <name>data_execucao</name>
-        <type>system date (variable)</type>
-      </field>
-    </fields>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <cache_size>500</cache_size>
+    <main>Calcular Totais e Margem</main>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue/>
+        <function>=</function>
+        <rightvalue/>
+      </condition>
+    </compare>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3371,14 +2748,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1136</xloc>
-      <yloc>1136</yloc>
+      <xloc>896</xloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Gravar Log Execucao</name>
-    <type>TextFileOutput</type>
+    <name>Ler Produtos e Stock</name>
+    <type>CsvInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3387,210 +2764,99 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <filename>${Internal.Entry.Current.Directory}/../data/produtos_stock.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
     <separator>;</separator>
     <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>N</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <format>mixed</format>
     <encoding>UTF-8</encoding>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>${Internal.Entry.Current.Directory}/../output/pentaho/log_execucao</name>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>csv</extention>
-      <append>Y</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery/>
-    </file>
     <fields>
       <field>
-        <name>num_validas</name>
-        <type>Integer</type>
-        <format>0</format>
-        <currency/>
-        <decimal>,</decimal>
-        <group>.</group>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>10</length>
-        <precision>0</precision>
-      </field>
-      <field>
-        <name>total_vendas</name>
-        <type>Number</type>
-        <format>0.00</format>
-        <currency/>
-        <decimal>.</decimal>
-        <group>.</group>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>num_rejeitadas</name>
-        <type>Integer</type>
-        <format>0</format>
-        <currency/>
-        <decimal>,</decimal>
-        <group>.</group>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>10</length>
-        <precision>0</precision>
-      </field>
-      <field>
-        <name>data_execucao</name>
-        <type>Date</type>
-        <format>yyyy-MM-dd HH:mm:ss</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1424</xloc>
-      <yloc>1104</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Ordenar Colunas Log</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>num_validas</name>
-        <rename/>
-      </field>
-      <field>
-        <name>total_vendas</name>
-        <rename/>
-      </field>
-      <field>
-        <name>num_rejeitadas</name>
-        <rename/>
-      </field>
-      <field>
-        <name>data_execucao</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1248</xloc>
-      <yloc>1088</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Remover Duplicados</name>
-    <type>UniqueRowsByHashSet</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <store_values>Y</store_values>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>
-      <field>
-        <name>id_transacao</name>
-      </field>
-      <field>
-        <name>sku</name>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>800</xloc>
-      <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>URL API Cambio</name>
-    <type>RowGenerator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>url</name>
+        <name>SKU</name>
         <type>String</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>https://api.frankfurter.dev/v1/latest?base=EUR&amp;symbols=USD,GBP</nullif>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>8</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Nome_Produto</name>
+        <type>String</type>
+        <format/>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>25</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Categoria</name>
+        <type>String</type>
+        <format/>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>11</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Preco_Unitario</name>
+        <type>BigNumber</type>
+        <format>#.###</format>
+        <currency>€</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Stock_Atual</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Armazem_ID</name>
+        <type>String</type>
+        <format/>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>9</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Data_Ultima_Entrada</name>
+        <type>Date</type>
+        <format>yyyy-MM-dd</format>
+        <currency>€</currency>
+        <decimal>,</decimal>
+        <group>.</group>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
+        <trim_type>none</trim_type>
       </field>
     </fields>
-    <limit>1</limit>
-    <never_ending>N</never_ending>
-    <interval_in_ms>5000</interval_in_ms>
-    <row_time_field>now</row_time_field>
-    <last_time_field>FiveSecondsAgo</last_time_field>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3600,60 +2866,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>128</xloc>
-      <yloc>800</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Chamar API Cambio</name>
-    <type>Rest</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <applicationType>TEXT PLAIN</applicationType>
-    <method>GET</method>
-    <url/>
-    <urlInField>Y</urlInField>
-    <dynamicMethod>N</dynamicMethod>
-    <methodFieldName/>
-    <urlField>url</urlField>
-    <bodyField/>
-    <httpLogin/>
-    <httpPassword>Encrypted </httpPassword>
-    <proxyHost/>
-    <proxyPort/>
-    <preemptive>N</preemptive>
-    <trustStoreFile/>
-    <trustStorePassword>Encrypted </trustStorePassword>
-    <headers>
-      </headers>
-    <parameters>
-      </parameters>
-    <matrixParameters>
-      </matrixParameters>
-    <result>
-      <name>resposta_api</name>
-      <code>status_api</code>
-      <response_time/>
-      <response_header/>
-    </result>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>880</yloc>
+      <xloc>608</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3749,8 +2963,634 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>960</yloc>
+      <xloc>784</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup Fornecedores</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Get data from XML</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>sku</name>
+        <field>sku</field>
+      </key>
+      <value>
+        <name>preco_custo</name>
+        <rename>preco_custo</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>tempo_entrega_dias</name>
+        <rename>tempo_entrega_dias</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup Produtos</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Corrigir Categoria</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>sku</name>
+        <field>SKU</field>
+      </key>
+      <value>
+        <name>Nome_Produto</name>
+        <rename>Nome_Produto</rename>
+        <default/>
+        <type>String</type>
+      </value>
+      <value>
+        <name>Categoria</name>
+        <rename>Categoria</rename>
+        <default/>
+        <type>String</type>
+      </value>
+      <value>
+        <name>Stock_Atual</name>
+        <rename>Stock_Atual</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Normalizar NIF e Telefone</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>contribuinte</in_stream_name>
+        <out_stream_name>nif</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>^PT</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>telefone</in_stream_name>
+        <out_stream_name>telefone_norm</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>\s</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1280</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordenar Colunas Log</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>num_validas</name>
+      </field>
+      <field>
+        <name>total_vendas</name>
+      </field>
+      <field>
+        <name>num_rejeitadas</name>
+      </field>
+      <field>
+        <name>data_execucao</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1248</xloc>
+      <yloc>1088</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordenar por Categoria</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Categoria</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>688</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Preparar Saida Rejeitadas</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_transacao</name>
+      </field>
+      <field>
+        <name>data_venda</name>
+      </field>
+      <field>
+        <name>metodo_pagamento</name>
+      </field>
+      <field>
+        <name>sku</name>
+      </field>
+      <field>
+        <name>Nome_Produto</name>
+      </field>
+      <field>
+        <name>Categoria</name>
+      </field>
+      <field>
+        <name>quantidade</name>
+      </field>
+      <field>
+        <name>preco_aplicado</name>
+      </field>
+      <field>
+        <name>email_valido</name>
+      </field>
+      <field>
+        <name>preco_custo</name>
+      </field>
+      <field>
+        <name>tempo_entrega_dias</name>
+      </field>
+      <field>
+        <name>total_linha</name>
+      </field>
+      <field>
+        <name>custo_total</name>
+      </field>
+      <field>
+        <name>margem</name>
+      </field>
+      <field>
+        <name>data_cambio</name>
+      </field>
+      <field>
+        <name>taxa _usd</name>
+      </field>
+      <field>
+        <name>taxa_gbp</name>
+      </field>
+      <field>
+        <name>total_linha_gbp</name>
+      </field>
+      <field>
+        <name>total_linha_usd</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>880</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Preparar Saida Vendas</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_transacao</name>
+      </field>
+      <field>
+        <name>data_venda</name>
+      </field>
+      <field>
+        <name>metodo_pagamento</name>
+      </field>
+      <field>
+        <name>nif_anon</name>
+      </field>
+      <field>
+        <name>telefone_anon</name>
+      </field>
+      <field>
+        <name>email_anon</name>
+      </field>
+      <field>
+        <name>sku</name>
+      </field>
+      <field>
+        <name>Nome_Produto</name>
+      </field>
+      <field>
+        <name>Categoria</name>
+      </field>
+      <field>
+        <name>quantidade</name>
+      </field>
+      <field>
+        <name>preco_aplicado</name>
+      </field>
+      <field>
+        <name>preco_custo</name>
+      </field>
+      <field>
+        <name>tempo_entrega_dias</name>
+      </field>
+      <field>
+        <name>total_linha</name>
+      </field>
+      <field>
+        <name>custo_total</name>
+      </field>
+      <field>
+        <name>margem</name>
+      </field>
+      <field>
+        <name>data_cambio</name>
+      </field>
+      <field>
+        <name>taxa _usd</name>
+      </field>
+      <field>
+        <name>taxa_gbp</name>
+      </field>
+      <field>
+        <name>total_linha_gbp</name>
+      </field>
+      <field>
+        <name>total_linha_usd</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Remover Duplicados</name>
+    <type>UniqueRowsByHashSet</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <store_values>Y</store_values>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>id_transacao</name>
+      </field>
+      <field>
+        <name>sku</name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>912</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Remover linha_venda</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <remove>
+        <name>linha_venda</name>
+      </remove>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>736</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Resumo por Categoria</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore/>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname/>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>Categoria</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>total_unidades</aggregate>
+        <subject>quantidade</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>total_vendas</aggregate>
+        <subject>total_linha</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>margem_total</aggregate>
+        <subject>margem</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>num_vendas</aggregate>
+        <subject>sku</subject>
+        <type>COUNT_ALL</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1152</xloc>
+      <yloc>816</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stock Baixo?</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Alerta Stock Baixo</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>Stock_Atual</leftvalue>
+        <function>&lt;</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Integer</type>
+          <text>5</text>
+          <length>-1</length>
+          <precision>0</precision>
+          <isnull>N</isnull>
+          <mask>####0;-####0</mask>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stock Nulo para 0</name>
+    <type>IfNull</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <replaceAllByValue/>
+    <replaceAllMask/>
+    <selectFields>Y</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+      </valuetypes>
+    <fields>
+      <field>
+        <name>Stock_Atual</name>
+        <value>0</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3768,15 +3608,12 @@
     <fields>
       <field>
         <name>data_cambio</name>
-        <rename/>
       </field>
       <field>
         <name>taxa _usd</name>
-        <rename/>
       </field>
       <field>
         <name>taxa_gbp</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3789,14 +3626,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>928</yloc>
+      <xloc>896</xloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Juntar Taxas Cambio</name>
-    <type>JoinRows</type>
+    <name>URL API Cambio</name>
+    <type>RowGenerator</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3805,15 +3642,141 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <cache_size>500</cache_size>
-    <main>Calcular Totais e Margem</main>
+    <fields>
+      <field>
+        <name>url</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>https://api.frankfurter.dev/v1/latest?base=EUR&amp;symbols=USD,GBP</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <limit>1</limit>
+    <never_ending>N</never_ending>
+    <interval_in_ms>5000</interval_in_ms>
+    <row_time_field>now</row_time_field>
+    <last_time_field>FiveSecondsAgo</last_time_field>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Validar Email</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>^[\w.+-]+@[\w-]+\.[\w.]+$</script>
+    <matcher>email</matcher>
+    <resultfieldname>email_valido</resultfieldname>
+    <usevar>N</usevar>
+    <allowcapturegroups>N</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Validar Email OK</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Validar Fornecedor</send_true_to>
+    <send_false_to>Vendas Rejeitadas</send_false_to>
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue/>
+        <leftvalue>email_valido</leftvalue>
         <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Boolean</type>
+          <text>Y</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Validar Fornecedor</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Vendas Validas</send_true_to>
+    <send_false_to>Vendas Rejeitadas</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>preco_custo</leftvalue>
+        <function>IS NOT NULL</function>
         <rightvalue/>
       </condition>
     </compare>
@@ -3826,14 +3789,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>784</yloc>
+      <xloc>704</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Converter Moeda</name>
-    <type>Calculator</type>
+    <name>Vendas Rejeitadas</name>
+    <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3842,37 +3805,6 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>total_linha_usd</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>total_linha</field_a>
-      <field_b>taxa _usd</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>2</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>total_linha_gbp</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>total_linha</field_a>
-      <field_b>taxa_gbp</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>2</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -3882,8 +3814,33 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>864</yloc>
+      <xloc>736</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Vendas Validas</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>848</xloc>
+      <yloc>688</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

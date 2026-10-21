@@ -411,7 +411,7 @@
       <use_auth>Y</use_auth>
       <use_secure_auth>Y</use_secure_auth>
       <auth_user>goncalovbbraga@gmail.com</auth_user>
-      <auth_password>Encrypted </auth_password>
+      <auth_password>Encrypted 2c4f1d5be05c48497ba00a278ce97b7cb</auth_password>
       <only_comment>N</only_comment>
       <use_HTML>N</use_HTML>
       <use_Priority>N</use_Priority>
@@ -438,8 +438,8 @@
       <description/>
       <type>MAIL</type>
       <attributes/>
-      <server/>
-      <port/>
+      <server>smtp.gmail.com</server>
+      <port>587</port>
       <destination/>
       <destinationCc/>
       <destinationBCc/>
@@ -453,10 +453,10 @@
       <include_files>N</include_files>
       <zip_files>N</zip_files>
       <zip_name/>
-      <use_auth>N</use_auth>
-      <use_secure_auth>N</use_secure_auth>
-      <auth_user/>
-      <auth_password>Encrypted </auth_password>
+      <use_auth>Y</use_auth>
+      <use_secure_auth>Y</use_secure_auth>
+      <auth_user>goncalovbbraga@gmail.com</auth_user>
+      <auth_password>Encrypted 2c4f1d5be05c48497ba00a278ce97b7cb</auth_password>
       <only_comment>N</only_comment>
       <use_HTML>N</use_HTML>
       <use_Priority>N</use_Priority>
@@ -464,7 +464,7 @@
       <priority>normal</priority>
       <importance>normal</importance>
       <sensitivity>normal</sensitivity>
-      <secureconnectiontype>SSL</secureconnectiontype>
+      <secureconnectiontype>TLS</secureconnectiontype>
       <replyToAddresses/>
       <filetypes>      </filetypes>
       <embeddedimages>

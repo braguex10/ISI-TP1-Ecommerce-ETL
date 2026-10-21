@@ -1,4 +1,4 @@
 id_transacao;data_venda;metodo_pagamento;sku;Nome_Produto;Categoria;quantidade;preco_aplicado;email_valido;preco_custo;tempo_entrega_dias;total_linha;custo_total;margem;data_cambio;taxa _usd;taxa_gbp;total_linha_gbp;total_linha_usd
-TXN-2026-001;2026-10-01 10:15:30;MBWAY;SKU-1006;Tapete Mousepad XL;Acessorios;1;19.99;Y;;;19.99;;;2026-10-16;1.12530;0.84385;16,87;22,49
-TXN-2026-002;2026-10-01 11:42:00;VISA;SKU-1002;Rato Sem Fios Pro;Perifericos;1;49.99;N;31.50;2;49.99;31.50;18.49;2026-10-16;1.12530;0.84385;42,18;56,25
-TXN-2026-002;2026-10-01 11:42:00;VISA;SKU-1005;Headset 7.1 Surround;Perifericos;1;59.90;N;38.00;5;59.90;38.00;21.90;2026-10-16;1.12530;0.84385;50,55;67,41
+TXN-2026-001;2026-10-01 10:15:30;MBWAY;SKU-1006;Tapete Mousepad XL;Acessorios;1;19.99;Y;;;19.99;;;2026-10-20;1.12150;0.84028;16.80;22.42
+TXN-2026-002;2026-10-01 11:42:00;VISA;SKU-1002;Rato Sem Fios Pro;Perifericos;1;49.99;N;31.50;2;49.99;31.50;18.49;2026-10-20;1.12150;0.84028;42.01;56.06
+TXN-2026-002;2026-10-01 11:42:00;VISA;SKU-1005;Headset 7.1 Surround;Perifericos;1;59.90;N;38.00;5;59.90;38.00;21.90;2026-10-20;1.12150;0.84028;50.33;67.18

@@ -8,12 +8,12 @@ Licenciatura em Engenharia de Sistemas Informáticos · IPCA · 2026/27
 
 | Material | Localização / estado |
 |---|---|
-| Relatório em PDF | Pendente; a incluir em [`docs/`](docs) |
+| Relatório em PDF | [`docs/3150731508_doc.pdf`](docs/3150731508_doc.pdf) |
 | Transformação Pentaho | [01_ler_dados.ktr](pentaho/01_ler_dados.ktr) |
 | Job Pentaho | [job_etl.kjb](pentaho/job_etl.kjb) |
 | Workflow KNIME | [TP1_Ecommerce_ETL.knwf](knime/TP1_Ecommerce_ETL.knwf) |
-| Vídeo de demonstração | Pendente de gravação e inclusão do link |
-| QR Code do vídeo | Pendente do link definitivo; a incluir no relatório |
+| Vídeo de demonstração | https://youtu.be/VccxcmJV_bY |
+| QR Code do vídeo | Incluído no relatório (secção 6) |
 
 ## Sobre o projeto
 

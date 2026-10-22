@@ -12,14 +12,14 @@
   "preco_custo" : 52.0,
   "tempo_entrega_dias" : 3,
   "email_valido" : true,
-  "data_cambio" : "2026-10-16",
-  "taxa_usd" : 1.1253,
-  "taxa_gbp" : 0.84385,
+  "data_cambio" : "2026-10-22",
+  "taxa_usd" : 1.1205,
+  "taxa_gbp" : 0.8377,
   "total_linha" : 159.8,
   "custo_total" : 104.0,
   "margem" : 55.80000000000001,
-  "total_linha_usd" : 179.82294000000002,
-  "total_linha_gbp" : 134.84723
+  "total_linha_usd" : 179.0559,
+  "total_linha_gbp" : 133.86446
 }, {
   "id_transacao" : "TXN-2026-003",
   "data_venda" : "2026-10-02 09:05:12",
@@ -34,12 +34,12 @@
   "preco_custo" : 120.0,
   "tempo_entrega_dias" : 4,
   "email_valido" : true,
-  "data_cambio" : "2026-10-16",
-  "taxa_usd" : 1.1253,
-  "taxa_gbp" : 0.84385,
+  "data_cambio" : "2026-10-22",
+  "taxa_usd" : 1.1205,
+  "taxa_gbp" : 0.8377,
   "total_linha" : 379.0,
   "custo_total" : 240.0,
   "margem" : 139.0,
-  "total_linha_usd" : 426.4887,
-  "total_linha_gbp" : 319.81915
+  "total_linha_usd" : 424.6695,
+  "total_linha_gbp" : 317.4883
 } ]
